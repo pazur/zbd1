@@ -1,8 +1,12 @@
 package tv.daos.people;
 
 import org.hibernate.Query;
+import tv.TVStation;
 import tv.daos.DAO;
+import tv.people.Actor;
 import tv.people.Person;
+import tv.people.Reporter;
+import tv.people.TVWorker;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,11 +19,28 @@ public class PersonDAO extends DAO{
     public Query getQuery(){
         return currentSession().createQuery("from Person");
     }
+
     public Person createPerson(String name, String surname){
-        Person person = new Person();
-        person.setName(name);
-        person.setSurname(surname);
+        Person person = new Person(name, surname);
         currentSession().save(person);
         return person;
+    }
+
+    public TVWorker createTVWorker(String name, String surname, TVStation station){
+        TVWorker tvWorker = new TVWorker(name, surname, station);
+        currentSession().save(tvWorker);
+        return tvWorker;
+    }
+
+    public Actor createActor(String name, String surname, TVStation station, short rating){
+        Actor actor = new Actor(name, surname, station, rating);
+        currentSession().save(actor);
+        return actor;
+    }
+
+    public Reporter createReporter(String name, String surname, TVStation station, String speciality){
+        Reporter reporter = new Reporter(name, surname, station, speciality);
+        currentSession().save(reporter);
+        return reporter;
     }
 }
