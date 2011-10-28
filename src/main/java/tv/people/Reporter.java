@@ -1,5 +1,7 @@
 package tv.people;
 
+import tv.TVStation;
+
 /**
  * Created by IntelliJ IDEA.
  * User: tomek
@@ -9,6 +11,14 @@ package tv.people;
  */
 public class Reporter extends TVWorker{
     private String speciality;
+
+    public Reporter(){
+    }
+
+    public Reporter(String name, String surname, TVStation station, String speciality){
+        super(name, surname, station);
+        this.speciality = speciality;
+    }
 
     public String getSpeciality() {
         return speciality;

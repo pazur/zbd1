@@ -12,6 +12,14 @@ public class Person {
     private String surname;
     private Long id;
 
+    public Person(){
+    }
+
+    public Person(String name, String surname){
+        this.name = name;
+        this.surname = surname;
+    }
+
     public Long getId() {
         return id;
     }
@@ -35,6 +43,5 @@ public class Person {
     public void setName(String name) {
         this.name = name;
     }
-
 
 }
