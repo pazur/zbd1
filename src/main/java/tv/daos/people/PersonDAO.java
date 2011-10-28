@@ -58,4 +58,8 @@ public class PersonDAO extends DAO{
         r.setSpeciality(speciality);
         currentSession().update(r);
     }
+
+    public void deletePerson(Person p){
+        currentSession().delete(p);
+    }
 }

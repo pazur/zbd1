@@ -58,4 +58,29 @@ public class PersonDaoTest extends SessionTest{
         assertEquals(1, actors.size());
         assertEquals(5, actors.get(0).getRating());
     }
+
+    @Test
+    public void testDeletePerson(){
+        Person p = dao.createPerson("A", "B");
+        commitAndCreateNewTransaction();
+        dao.deletePerson(p);
+        commitAndCreateNewTransaction();
+        List<Person> persons = dao.getQuery().list();
+        assertEquals(0, persons.size());
+    }
+    @Test
+    public void testDeleteActor(){
+        Actor p = dao.createActor("A", "B", TVStation.TV_1, (short)3);
+        commitAndCreateNewTransaction();
+        dao.deletePerson(p);
+        commitAndCreateNewTransaction();
+        List<Person> persons = dao.getQuery().list();
+        List<TVWorker> tvWorkers  = dao.getQuery("TVWorker").list();
+        List<Actor> actors = dao.getQuery("Actor").list();
+        assertEquals(0, persons.size());
+        assertEquals(0, tvWorkers.size());
+        assertEquals(0, actors.size());
+        assertEquals(0, session.createSQLQuery("SELECT * FROM ACTORS").list().size());
+    }
+
 }
