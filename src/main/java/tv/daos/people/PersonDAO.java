@@ -20,6 +20,11 @@ public class PersonDAO extends DAO{
         return currentSession().createQuery("from Person");
     }
 
+    public Query getQuery(String cls){
+        return currentSession().createQuery(String.format("from %s", cls));
+
+    }
+
     public Person createPerson(String name, String surname){
         Person person = new Person(name, surname);
         currentSession().save(person);
