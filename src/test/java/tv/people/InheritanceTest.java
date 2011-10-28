@@ -1,10 +1,8 @@
 package tv.people;
 
-import org.hibernate.Session;
 import org.junit.Test;
 import tv.SessionTest;
 import tv.TVStation;
-import util.HibernateUtil;
 import static org.junit.Assert.*;
 
 import java.util.List;

@@ -7,10 +7,8 @@ package tv;
  * Time: 11:43
  * To change this template use File | Settings | File Templates.
  */
-import org.hibernate.Session;
 import org.junit.Test;
 import tv.people.Person;
-import util.HibernateUtil;
 
 import java.util.List;
 
