@@ -48,4 +48,14 @@ public class PersonDAO extends DAO{
         currentSession().save(reporter);
         return reporter;
     }
+
+    public void updateRating(Actor a, short ranting){
+        a.setRating(ranting);
+        currentSession().update(a);
+    }
+
+    public void updateSpeciality(Reporter r, String speciality){
+        r.setSpeciality(speciality);
+        currentSession().update(r);
+    }
 }
