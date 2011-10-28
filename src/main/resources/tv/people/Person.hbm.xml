@@ -17,13 +17,19 @@
                 <param name="enumClass">tv.TVStation</param>
             </type>
         </property>
+
         <subclass name="tv.people.Reporter">
-            <property name="speciality"/>
+            <join table="REPORTERS">
+                <key column="PERSON_ID"/>
+                <property name="speciality"/>
+            </join>
         </subclass>
         <subclass name="tv.people.Actor">
-            <property name="rating"/>
+            <join table="ACTORS">
+                <key column="PERSON_ID"/>
+                <property name="rating"/>
+            </join>
         </subclass>
     </subclass>
-
 </class>
 </hibernate-mapping>
