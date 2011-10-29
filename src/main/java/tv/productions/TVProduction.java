@@ -1,9 +1,6 @@
 package tv.productions;
 
-import java.util.Date;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,10 +11,10 @@ import java.util.TreeSet;
  */
 public class TVProduction {
     private Long id;
-    private SortedSet<Date> airingDate;
+    private HashSet<Date> airingDate;
 
     public TVProduction(){
-        airingDate = new TreeSet<Date>();
+        airingDate = new HashSet<Date>();
     }
 
     public Long getId() {
@@ -28,11 +25,11 @@ public class TVProduction {
         this.id = id;
     }
 
-    public SortedSet<Date> getAiringDate() {
+    public Set<Date> getAiringDate() {
         return airingDate;
     }
 
     public void setAiringDate(Set<Date> airingDate) {
-        this.airingDate = new TreeSet<Date>(airingDate);
+        this.airingDate = new HashSet<Date>(airingDate);
     }
 }

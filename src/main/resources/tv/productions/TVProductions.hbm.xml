@@ -4,4 +4,13 @@
         "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="tv.productions">
+    <class name="TVProduction" table="TVPRODUCTIONS">
+        <id name="id" column="TVPRODUCTION_ID">
+            <generator class="native"/>
+        </id>
+        <set name="airingDate" table="TVPRODUCTION_AIRINGDATE">
+            <key column="TVPRODUCTION_ID"/>
+            <element type="timestamp" column="AIRINGDATE"/>
+        </set>
+    </class>
 </hibernate-mapping>
