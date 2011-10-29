@@ -32,6 +32,7 @@
         <property name="hbm2ddl.auto">create-drop</property>
 
         <mapping resource="tv/people/Person.hbm.xml"/>
+        <mapping resource="tv/productions/TVProductions.hbm.xml"/>
 
     </session-factory>
 
