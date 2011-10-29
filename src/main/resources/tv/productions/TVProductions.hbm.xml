@@ -8,9 +8,17 @@
         <id name="id" column="TVPRODUCTION_ID">
             <generator class="native"/>
         </id>
+        <discriminator column="TVPRODUCTION_TYPE"/>
         <set name="airingDate" table="TVPRODUCTION_AIRINGDATE">
             <key column="TVPRODUCTION_ID"/>
             <element type="timestamp" column="AIRINGDATE"/>
         </set>
+
+        <subclass name="tv.productions.News">
+            <property name="audience"/>
+        </subclass>
+        <subclass name="tv.productions.TVSeries">
+            <property name="title"/>
+        </subclass>
     </class>
 </hibernate-mapping>
