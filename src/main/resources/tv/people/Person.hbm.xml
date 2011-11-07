@@ -17,8 +17,15 @@
                 <param name="enumClass">tv.TVStation</param>
             </type>
         </property>
-
+        <set name="productions" table="TVPRODUCTION_TVWORKER">
+            <key column="TVWORKER_ID"/>
+            <many-to-many column="TVPRODUCTION_ID" class="tv.productions.TVProduction"/>
+        </set>
         <subclass name="tv.people.Reporter">
+            <set name="reportages" table="REPORTAGES">
+                <key column="AUTHOR_ID"/>
+                <one-to-many class="tv.productions.Reportage"/>
+            </set>
             <join table="REPORTERS">
                 <key column="PERSON_ID"/>
                 <property name="speciality"/>

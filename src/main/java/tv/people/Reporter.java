@@ -1,6 +1,9 @@
 package tv.people;
 
 import tv.TVStation;
+import tv.productions.Reportage;
+
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,6 +14,15 @@ import tv.TVStation;
  */
 public class Reporter extends TVWorker{
     private String speciality;
+        private Set<Reportage> reportages;
+
+    public Set<Reportage> getReportages() {
+        return reportages;
+    }
+
+    public void setReportages(Set<Reportage> reportages) {
+        this.reportages = reportages;
+    }
 
     public Reporter(){
     }

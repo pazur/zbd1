@@ -1,5 +1,7 @@
 package tv.productions;
 
+import tv.people.TVWorker;
+
 import java.util.*;
 
 /**
@@ -12,6 +14,15 @@ import java.util.*;
 public abstract class TVProduction {
     private Long id;
     private HashSet<Date> airingDate;
+    private Set<TVWorker> people;
+
+    public Set<TVWorker> getPeople() {
+        return people;
+    }
+
+    public void setPeople(Set<TVWorker> people) {
+        this.people = people;
+    }
 
     public TVProduction(){
         airingDate = new HashSet<Date>();

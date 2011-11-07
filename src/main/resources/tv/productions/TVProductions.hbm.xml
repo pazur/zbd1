@@ -13,8 +13,15 @@
             <key column="TVPRODUCTION_ID"/>
             <element type="timestamp" column="AIRINGDATE"/>
         </set>
-
+        <set name="people" table="TVPRODUCTION_TVWORKER" inverse="true">
+            <key column="TVPRODUCTION_ID"/>
+            <many-to-many column="TVWORKER_ID" class="tv.people.TVWorker"/>
+        </set>
         <subclass name="tv.productions.News">
+            <set name="reportages" table="REPORTAGES">
+                <key column="NEWS_ID"/>
+                <one-to-many class="Reportage"/>
+            </set>
             <property name="audience"/>
         </subclass>
         <subclass name="tv.productions.TVSeries">
@@ -42,5 +49,6 @@
         <property name="subject"/>
         <property name="version"/>
         <many-to-one name="author" column="AUTHOR_ID"/>
+        <many-to-one name="news" column="NEWS_ID"/>
     </class>
 </hibernate-mapping>

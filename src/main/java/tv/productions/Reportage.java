@@ -2,6 +2,8 @@ package tv.productions;
 
 import tv.people.Reporter;
 
+import java.util.Set;
+
 /**
  * Created by IntelliJ IDEA.
  * User: tomek
@@ -16,6 +18,15 @@ public class Reportage {
     private short version;
     private String content;
     private Reporter author;
+    private News news;
+
+    public News getNews() {
+        return news;
+    }
+
+    public void setNews(News news) {
+        this.news = news;
+    }
 
     public Long getReportageId() {
         return reportageId;
