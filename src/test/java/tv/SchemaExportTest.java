@@ -14,8 +14,8 @@ import org.junit.Test;
 public class SchemaExportTest {
     @Test
     public void export(){
-//        SchemaExport se = new SchemaExport(new Configuration().configure());
-//        se.drop(true, false);
-//        se.create(true, false);
+        SchemaExport se = new SchemaExport(new Configuration().configure());
+        se.drop(true, false);
+        se.create(true, false);
     }
 }

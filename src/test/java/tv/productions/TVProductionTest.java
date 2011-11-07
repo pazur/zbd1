@@ -19,7 +19,7 @@ public class TVProductionTest extends SessionTest{
     @Test
     public void testSchema(){
         newSessionFactoryAndTransaction();
-        TVProduction production = new TVProduction();
+        TVProduction production = new News();
         HashSet<Date> dates = new HashSet<Date>();
         dates.add(new Date(123));
         dates.add(new Date(321));

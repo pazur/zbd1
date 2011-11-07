@@ -9,7 +9,7 @@ import java.util.*;
  * Time: 12:59
  * To change this template use File | Settings | File Templates.
  */
-public class TVProduction {
+public abstract class TVProduction {
     private Long id;
     private HashSet<Date> airingDate;
 

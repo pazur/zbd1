@@ -1,6 +1,9 @@
 package tv.people;
 
 import tv.TVStation;
+import tv.productions.Episode;
+
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,7 +14,7 @@ import tv.TVStation;
  */
 public class Actor extends TVWorker{
     private short rating;
-
+    private Set<Episode> episodes;
     public Actor(){
     }
 
@@ -26,5 +29,13 @@ public class Actor extends TVWorker{
 
     public void setRating(short rating) {
         this.rating = rating;
+    }
+
+    public Set<Episode> getEpisodes() {
+        return episodes;
+    }
+
+    public void setEpisodes(Set<Episode> episodes) {
+        this.episodes = episodes;
     }
 }
