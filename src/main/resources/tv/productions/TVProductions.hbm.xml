@@ -33,4 +33,14 @@
             <many-to-many column="PERSON_ID" class="tv.people.Actor"/>
         </set>
     </class>
+    <class name="Reportage" table="REPORTAGES">
+        <id name="id" column="REPORTAGE_ID">
+            <generator class="native"/>
+        </id>
+        <property name="reportageId" not-null="false"/>
+        <property name="content" type="text"/>
+        <property name="subject"/>
+        <property name="version"/>
+        <many-to-one name="author" column="AUTHOR_ID"/>
+    </class>
 </hibernate-mapping>

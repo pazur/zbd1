@@ -11,10 +11,19 @@ import tv.people.Reporter;
  */
 public class Reportage {
     private Long id;
+    private Long reportageId;
     private String subject;
     private short version;
     private String content;
     private Reporter author;
+
+    public Long getReportageId() {
+        return reportageId;
+    }
+
+    public void setReportageId(Long reportageId) {
+        this.reportageId = reportageId;
+    }
 
     public Long getId() {
         return id;
