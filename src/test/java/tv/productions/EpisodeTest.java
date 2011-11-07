@@ -16,7 +16,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class EpisodeTest extends SessionTest{
-//    @Test
+    @Test
     public void testFields(){
         newSessionFactoryAndTransaction();
         TVSeries s = new TVSeries();
@@ -37,8 +37,7 @@ public class EpisodeTest extends SessionTest{
         assertEquals(e.getSeason(), episode.getSeason());
     }
 
-    @Test
-    public void testActors(){
+    private void setUpActorsTests(){
         newSessionFactoryAndTransaction();
         Actor a1 = new Actor();
         a1.setRating((short)1);
@@ -58,14 +57,29 @@ public class EpisodeTest extends SessionTest{
         e.setSeries(s);
         e.setActors(actors);
         save(e);
-        session.update(e);
         commitAndCreateNewTransaction();
+    }
+
+    @Test
+    public void testActors(){
+        setUpActorsTests();
         List<Episode> episodes = session.createQuery("from Episode").list();
         assertEquals(1, episodes.size());
         Episode episode = episodes.get(0);
-        assertEquals(s.getId(), episode.getSeries().getId());
-        assertEquals(e.getNumber(), episode.getNumber());
-        assertEquals(e.getSeason(), episode.getSeason());
+        assertEquals("Klan", episode.getSeries().getTitle());
+        assertEquals(1, episode.getNumber());
+        assertEquals(1, episode.getSeason());
         assertEquals(2, episode.getActors().size());
+    }
+
+    @Test
+    public void testReverseActors(){
+        setUpActorsTests();
+        List<Actor> actors = session.createQuery("from Actor").list();
+        assertEquals(2, actors.size());
+        for (Actor a: actors){
+            assertEquals(1, a.getEpisodes().size());
+        }
+
     }
 }

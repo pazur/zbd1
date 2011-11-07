@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="tv.people">
 <class name="Person" table="PERSONS">
@@ -25,6 +25,10 @@
             </join>
         </subclass>
         <subclass name="tv.people.Actor">
+            <set name="episodes" table="EPISODE_ACTOR">
+                <key column="PERSON_ID"/>
+                <many-to-many column="EPISODE_ID" class="tv.productions.Episode"/>
+            </set>
             <join table="ACTORS">
                 <key column="PERSON_ID"/>
                 <property name="rating"/>
