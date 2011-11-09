@@ -11,7 +11,9 @@ import tv.people.Actor;
 import tv.people.Person;
 import tv.people.Reporter;
 import tv.people.TVWorker;
+import util.HibernateUtil;
 
+import javax.persistence.Id;
 import java.util.List;
 
 /**
@@ -95,7 +97,7 @@ public class PeopleService extends Service{
         public GetAll(DAO dao){this.dao = dao;}
         public List run(){return dao.getAll();}
     }
-    private List getAll(Class cls) throws Exception {
+    public List getAll(Class cls) throws Exception {
         DAO dao = DAOUtil.getPeopleDAO(cls);
         if (dao == null)
             throw new Exception("Wrong class");
@@ -112,5 +114,14 @@ public class PeopleService extends Service{
         if (dao == null)
             throw new Exception("Wrong class");
         return execute(new Get(id, dao));
+    }
+
+    private class Save implements Command{
+        private Object o;
+        public Save(Object o){this.o = o;}
+        public Object run(){return new PersonDAO().save(o);}
+    }
+    public Long save(Person p){
+        return (Long)execute(new Save(p));
     }
 }
