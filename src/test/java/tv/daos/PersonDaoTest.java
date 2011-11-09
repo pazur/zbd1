@@ -4,9 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import tv.SessionTest;
 import tv.TVStation;
+import tv.daos.people.ActorDAO;
 import tv.daos.people.PersonDAO;
+import tv.daos.people.ReporterDAO;
+import tv.daos.people.TVWorkerDAO;
 import tv.people.Actor;
 import tv.people.Person;
+import tv.people.Reporter;
 import tv.people.TVWorker;
 
 import static org.junit.Assert.*;
@@ -20,64 +24,84 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class PersonDaoTest extends SessionTest{
-    PersonDAO dao;
+    PersonDAO pdao;
+    ActorDAO adao;
+    ReporterDAO rdao;
+    TVWorkerDAO wdao;
 
     @Before
     public void setUp(){
         newSessionFactoryAndTransaction();
-        dao = new PersonDAO();
+        pdao = new PersonDAO();
+        adao = new ActorDAO();
+        rdao = new ReporterDAO();
+        wdao = new TVWorkerDAO();
     }
 
     @Test
     public void testCreatePerson(){
-        Person p = dao.createPerson("Jan", "Kowalski");
+        pdao.create("Jan", "Kowalski");
         commitAndCreateNewTransaction();
-        List<Person> persons = dao.getQuery().list();
+        List<Person> persons = pdao.getAll();
         assertEquals(1, persons.size());
-        assertEquals(p.getId(), persons.get(0).getId());
+        assertEquals("Jan", persons.get(0).getName());
     }
 
     @Test
     public void testCreateTVWorker(){
-        TVWorker p = dao.createTVWorker("Jan", "Kowalski", TVStation.TV_1);
+        wdao.create("Jan", "Kowalski", TVStation.TV_1);
         commitAndCreateNewTransaction();
-        List<Person> persons = dao.getQuery().list();
-        List<TVWorker> tvWorkers = dao.getQuery("TVWorker").list();
+        List<Person> persons = pdao.getAll();
+        List<TVWorker> tvWorkers = wdao.getAll();
         assertEquals(1, persons.size());
         assertEquals(1, tvWorkers.size());
-        assertEquals(p.getId(), tvWorkers.get(0).getId());
+        assertEquals("Jan", tvWorkers.get(0).getName());
     }
 
     @Test
-    public void testUpdateActor(){
-        Actor a = dao.createActor("Jan", "Kowalski", TVStation.TV_7, (short)3);
+    public void testCreateActor(){
+        adao.create("Jan", "Kowalski", TVStation.TV_7, (short)3);
         commitAndCreateNewTransaction();
-        dao.updateRating(a, (short)5);
-        commitAndCreateNewTransaction();
-        List<Actor> actors = dao.getQuery("Actor").list();
+        List<Person> persons = pdao.getAll();
+        List<Actor> actors = adao.getAll();
+        List<TVWorker> tvWorkers = wdao.getAll();
+        assertEquals(1, persons.size());
+        assertEquals(1, tvWorkers.size());
         assertEquals(1, actors.size());
-        assertEquals(5, actors.get(0).getRating());
+        assertEquals("Jan", actors.get(0).getName());
+    }
+
+    @Test
+    public void testDeletePersonById(){
+        Long id = pdao.create("A", "B");
+        commitAndCreateNewTransaction();
+        pdao.delete(id);
+        commitAndCreateNewTransaction();
+        List<Person> persons = pdao.getAll();
+        assertEquals(0, persons.size());
     }
 
     @Test
     public void testDeletePerson(){
-        Person p = dao.createPerson("A", "B");
+        Long id = pdao.create("A", "B");
         commitAndCreateNewTransaction();
-        dao.deletePerson(p);
+        Person p = (Person)pdao.getAll().get(0);
+        pdao.delete(p);
         commitAndCreateNewTransaction();
-        List<Person> persons = dao.getQuery().list();
+        List<Person> persons = pdao.getAll();
         assertEquals(0, persons.size());
     }
+
 
     @Test
     public void testDeleteActor(){
-        Actor p = dao.createActor("A", "B", TVStation.TV_1, (short)3);
+        adao.create("A", "B", TVStation.TV_1, (short)3);
         commitAndCreateNewTransaction();
-        dao.deletePerson(p);
+        adao.delete(new Long(1));
         commitAndCreateNewTransaction();
-        List<Person> persons = dao.getQuery().list();
-        List<TVWorker> tvWorkers  = dao.getQuery("TVWorker").list();
-        List<Actor> actors = dao.getQuery("Actor").list();
+        List<Person> persons = pdao.getAll();
+        List<TVWorker> tvWorkers  = wdao.getAll();
+        List<Actor> actors = adao.getAll();
         assertEquals(0, persons.size());
         assertEquals(0, tvWorkers.size());
         assertEquals(0, actors.size());
@@ -85,18 +109,28 @@ public class PersonDaoTest extends SessionTest{
     }
 
     @Test
-    public void testDeletePersonActor(){
-        Actor p = dao.createActor("A", "B", TVStation.TV_1, (short)3);
+    public void testDifferentPeople(){
+        adao.create("A", "B", TVStation.TV_1, (short)3);
+        rdao.create("A", "B", TVStation.TV_7, "assassin");
         commitAndCreateNewTransaction();
-        List<Person> persons = dao.getQuery().list();
-        dao.deletePerson(persons.get(0));
+        List<Person> persons = pdao.getAll();
+        List<Actor> actors = adao.getAll();
+        List<Reporter> reporters = rdao.getAll();
+        assertEquals(2, persons.size());
+        assertEquals(1, actors.size());
+        assertEquals(1, reporters.size());
+    }
+
+    @Test
+    public void testEdit(){
+        pdao.create("Jan", "Kowalski");
         commitAndCreateNewTransaction();
-        persons = dao.getQuery().list();
-        List<TVWorker> tvWorkers  = dao.getQuery("TVWorker").list();
-        List<Actor> actors = dao.getQuery("Actor").list();
-        assertEquals(0, persons.size());
-        assertEquals(0, tvWorkers.size());
-        assertEquals(0, actors.size());
-        assertEquals(0, session.createSQLQuery("SELECT * FROM ACTORS").list().size());
+        Person p = (Person)pdao.getAll().get(0);
+        p.setName("Janka");
+        pdao.save(p);
+        commitAndCreateNewTransaction();
+        List<Person> persons = pdao.getAll();
+        assertEquals(1, persons.size());
+        assertEquals("Janka", persons.get(0).getName());
     }
 }

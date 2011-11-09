@@ -13,15 +13,6 @@ public class Person {
     private String name;
     private String surname;
     private Long id;
-    private Set<String> emails;
-
-    public Set<String> getEmails() {
-        return emails;
-    }
-
-    public void setEmails(Set<String> emails) {
-        this.emails = emails;
-    }
 
     public Person(){
     }
