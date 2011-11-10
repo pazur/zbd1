@@ -86,4 +86,33 @@ public class ReportageService extends Service{
     public List latest(){
         return (List)execute(new Latest());
     }
+
+    private class TopAverage implements Command{
+        public Object run(){
+            return currentSession().createQuery(" " +
+                    "from Reportage re " +
+                    "where (select avg(news.audience) from News as news where re in elements(news.reportages)) >= " +
+                    "all(select avg(news.audience) " +
+                    "from Reportage as r " +
+                    "join r.news as news " +
+                    "group by r)"
+            ).list();
+        }
+    }
+    public List topAverage(){
+        return (List)execute(new TopAverage());
+    }
+
+    private class Top implements Command{
+        public Object run(){
+            return currentSession().createQuery(" " +
+                    "from Reportage re " +
+                    "join re.news as nws " +
+                    "where  nws.audience >= (select max(audience) from News)"
+            ).list();
+        }
+    }
+    public List top(){
+        return (List)execute(new Top());
+    }
 }

@@ -28,9 +28,19 @@ public class NewsDAO extends TVProductionDAO{
         return save(news);
     }
     public boolean addReportage(News news, Reportage reportage){
-        return news.getReportages().add(reportage);
+        boolean result = news.getReportages().add(reportage);
+        update(news);
+        return result;
+
     }
     public boolean removeReportage(News news, Reportage reportage){
-        return news.getReportages().remove(reportage);
+        boolean result =  news.getReportages().remove(reportage);
+        update(news);
+        return result;
+    }
+    public boolean addReportage(Long newsId, Long reportageId){
+        News news = (News)get(newsId);
+        Reportage reportage = (Reportage)new ReportageDAO().get(reportageId);
+        return news.getReportages().add(reportage);
     }
 }
