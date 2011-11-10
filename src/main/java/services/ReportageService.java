@@ -13,6 +13,7 @@ import tv.productions.Reportage;
 import util.HibernateUtil;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -24,8 +25,8 @@ import java.util.List;
 public class ReportageService extends Service{
 
     private class Create implements Command{
-        private String subject; private String content; private Reporter author; private News news;
-        public Create(String subject, String content, Reporter author, News news){
+        private String subject; private String content; private Reporter author; private Set<News> news;
+        public Create(String subject, String content, Reporter author, Set<News> news){
             this.subject=subject;this.content=content;this.author=author;this.news=news;
         }
         public Object run(){
@@ -40,7 +41,7 @@ public class ReportageService extends Service{
             return null;
         }
     }
-    public Long create(String subject, String content, Reporter author, News news){
+    public Long create(String subject, String content, Reporter author, Set<News> news){
         Long result = (Long)execute(new Create(subject, content, author, news));
         execute(new UpdateId(get(result)));
         return result;

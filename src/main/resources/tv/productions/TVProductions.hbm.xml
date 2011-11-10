@@ -18,9 +18,9 @@
             <many-to-many column="TVWORKER_ID" class="tv.people.TVWorker"/>
         </set>
         <subclass name="tv.productions.News">
-            <set name="reportages" table="REPORTAGES">
+            <set name="reportages" table="REPORTAGE_NEWS">
                 <key column="NEWS_ID"/>
-                <one-to-many class="Reportage"/>
+                <many-to-many class="Reportage"/>
             </set>
             <property name="audience"/>
         </subclass>
@@ -49,6 +49,10 @@
         <property name="subject"/>
         <property name="version"/>
         <many-to-one name="author" column="AUTHOR_ID"/>
-        <many-to-one name="news" column="NEWS_ID"/>
+        <set name="news" table="REPORTAGE_NEWS">
+            <key column="REPORTAGE_ID"/>
+            <many-to-many column="NEWS_ID" class="News"/>
+        </set>
+
     </class>
 </hibernate-mapping>

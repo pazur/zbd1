@@ -6,6 +6,8 @@ import tv.people.Reporter;
 import tv.productions.News;
 import tv.productions.Reportage;
 
+import java.util.Set;
+
 /**
  * Created by IntelliJ IDEA.
  * User: tomek
@@ -24,7 +26,7 @@ public class ReportageDAO extends DAO{
         return Reportage.class;
     }
 
-    public Long create(String subject, String content, Reporter author, News news,int version, Long reportageId){
+    public Long create(String subject, String content, Reporter author, Set<News> news,int version, Long reportageId){
         Reportage reportage = new Reportage();
         reportage.setSubject(subject);
         reportage.setContent(content);
@@ -44,7 +46,7 @@ public class ReportageDAO extends DAO{
         }
     }
 
-    public Long create(String subject, String content, Reporter author, News news){
+    public Long create(String subject, String content, Reporter author, Set<News> news){
         return create(subject, content, author, news, (short)1, 0L);
     }
 

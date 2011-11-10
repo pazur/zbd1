@@ -41,26 +41,11 @@ public class ReportageDAOTest extends SessionTest{
     }
 
     @Test
-    public void testUpdate(){
+    public void testCreate(){
         Long rid = rdao.create("X", "Y", TVStation.TV_1, "AA");
         Reporter r = (Reporter)rdao.get(rid);
-        Long nid = ndao.create(0, new HashSet<Reportage>());
-        News n = (News)ndao.get(nid);
-        Long id = dao.create("Temat", "Treść", r, n);
+        Long id = dao.create("Temat", "Treść", r, new HashSet<News>());
         commitAndCreateNewTransaction();
         assertEquals(1, dao.getAll().size());
-        assertEquals(1, ((News)ndao.get(nid)).getReportages().size());
-        Reportage newReportage = (Reportage)dao.get(id);
-        newReportage.setSubject("Blablaliza");
-        Long newId = dao.updateReportage(newReportage);
-        assertNotSame(id, newId);
-        commitAndCreateNewTransaction();
-        assertEquals(2, dao.getAll().size());
-        Reportage oldr = (Reportage)dao.get(id);
-        Reportage newr = (Reportage)dao.get(newId);
-        assertEquals(1, oldr.getVersion());
-        assertEquals("Temat", oldr.getSubject());
-        assertEquals("Blablaliza", newr.getSubject());
-        assertEquals(2, newr.getVersion());
     }
 }

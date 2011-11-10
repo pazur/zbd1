@@ -18,13 +18,13 @@ public class Reportage {
     private short version;
     private String content;
     private Reporter author;
-    private News news;
+    private Set<News> news;
 
-    public News getNews() {
+    public Set<News> getNews() {
         return news;
     }
 
-    public void setNews(News news) {
+    public void setNews(Set<News> news) {
         this.news = news;
     }
 
