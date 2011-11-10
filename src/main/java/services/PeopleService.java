@@ -15,6 +15,7 @@ import tv.people.TVWorker;
 import util.HibernateUtil;
 
 import javax.persistence.Id;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -118,7 +119,7 @@ public class PeopleService extends Service{
     private class GetByCriterions implements Command{
         private List<Criterion> criterions; private DAO dao;
         public GetByCriterions(List<Criterion>criterions, DAO dao){this.dao = dao; this.criterions = criterions;}
-        public Object run(){return new PersonDAO().getByCriterions(criterions);}
+        public Object run(){return dao.getByCriterions(criterions);}
     }
     public List getByCriterions(Class cls, List<Criterion> criterions) throws Exception {
         return (List)execute(new GetByCriterions(criterions, getDao(cls)));
@@ -128,5 +129,22 @@ public class PeopleService extends Service{
         if (dao == null)
             throw new Exception("Wrong class");
         return dao;
+    }
+
+    private class GetMany implements Command{
+        private DAO dao; private Collection<Long> id;
+        public GetMany(Collection<Long> id, DAO dao){this.id = id; this.dao = dao;}
+        public Object run(){return dao.get(id);}
+    }
+    public List get(Collection<Long> id, Class cls) throws Exception {
+        return (List)execute(new GetMany(id, getDao(cls)));
+    }
+    private class Delete implements Command{
+        private Person p;
+        public Delete(Person p){this.p = p;}
+        public Object run(){new PersonDAO().delete(p); return null;}
+    }
+    public void delete(Person p){
+        execute(new Delete(p));
     }
 }

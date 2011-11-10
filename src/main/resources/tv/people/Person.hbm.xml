@@ -17,7 +17,7 @@
                 <param name="enumClass">tv.TVStation</param>
             </type>
         </property>
-        <set name="productions" table="TVPRODUCTION_TVWORKER">
+        <set name="productions" table="TVPRODUCTION_TVWORKER" inverse="true">
             <key column="TVWORKER_ID"/>
             <many-to-many column="TVPRODUCTION_ID" class="tv.productions.TVProduction"/>
         </set>

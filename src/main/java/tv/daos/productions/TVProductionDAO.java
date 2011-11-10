@@ -7,6 +7,7 @@ import tv.people.TVWorker;
 import tv.productions.TVProduction;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -29,6 +30,13 @@ public class TVProductionDAO extends DAO{
     public boolean deleteWorker(TVProduction production, TVWorker worker){
         return production.getPeople().remove(worker);
     }
+    public boolean addWorkers(TVProduction production, Set<TVWorker> worker){
+        return production.getPeople().addAll(worker);
+    }
+
+    public boolean deleteWorkers(TVProduction production, Set<TVWorker> worker){
+        return production.getPeople().removeAll(worker);
+    }
 
     public boolean addAiringDate(TVProduction production, Date date){
         return production.getAiringDate().add(date);
@@ -36,6 +44,21 @@ public class TVProductionDAO extends DAO{
 
     public boolean removeAiringDate(TVProduction production, Date date){
         return production.getAiringDate().remove(date);
+    }
+    public boolean addAiringDates(TVProduction production, Set<Date> date){
+        return production.getAiringDate().addAll(date);
+    }
+    public boolean removeAiringDates(TVProduction production, Set<Date> date){
+        return production.getAiringDate().removeAll(date);
+    }
+    public boolean addAiringDate(Long productionId, Date date){
+        TVProduction production = (TVProduction)get(productionId);
+        return addAiringDate(production, date);
+    }
+
+    public boolean removeAiringDate(Long productionId, Date date){
+        TVProduction production = (TVProduction)get(productionId);
+        return removeAiringDate(production, date);
     }
 
 }

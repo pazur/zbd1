@@ -130,6 +130,5 @@ public class ReportageServiceTest{
         assertEquals(1, topavg.size());
         top = rs.top();
         assertEquals(1, top.size());
-
     }
 }

@@ -1,11 +1,9 @@
 package services;
 
-import org.hibernate.criterion.DetachedCriteria;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.criterion.Subqueries;
+import org.hibernate.criterion.*;
 import org.hibernate.loader.custom.Return;
 import tv.daos.DAO;
+import tv.daos.DAOUtil;
 import tv.daos.productions.ReportageDAO;
 import tv.people.Reporter;
 import tv.productions.News;
@@ -106,6 +104,7 @@ public class ReportageService extends Service{
     private class Top implements Command{
         public Object run(){
             return currentSession().createQuery(" " +
+                    "select distinct re " +
                     "from Reportage re " +
                     "join re.news as nws " +
                     "where  nws.audience >= (select max(audience) from News)"
@@ -114,5 +113,14 @@ public class ReportageService extends Service{
     }
     public List top(){
         return (List)execute(new Top());
+    }
+
+    private class GetByCriterions implements Command{
+        private List<Criterion> criterions;
+        public GetByCriterions(List<Criterion>criterions){this.criterions = criterions;}
+        public Object run(){return new ReportageDAO().getByCriterions(criterions);}
+    }
+    public List getByCriterions(List<Criterion> criterions){
+        return (List)execute(new GetByCriterions(criterions));
     }
 }

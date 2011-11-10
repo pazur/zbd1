@@ -5,10 +5,13 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.omg.PortableInterceptor.NON_EXISTENT;
 import tv.people.Person;
 import util.HibernateUtil;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -60,5 +63,11 @@ public class DAO {
     }
     protected Class getCls(){
         return null;
+    }
+
+    public List get(Collection<Long> ids){
+        List<Criterion> crits = new ArrayList<Criterion>();
+        crits.add(Restrictions.in("id", ids));
+        return getByCriterions(crits);
     }
 }

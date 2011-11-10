@@ -13,7 +13,7 @@
             <key column="TVPRODUCTION_ID"/>
             <element type="timestamp" column="AIRINGDATE"/>
         </set>
-        <set name="people" table="TVPRODUCTION_TVWORKER" inverse="true">
+        <set name="people" table="TVPRODUCTION_TVWORKER" lazy="false">
             <key column="TVPRODUCTION_ID"/>
             <many-to-many column="TVWORKER_ID" class="tv.people.TVWorker"/>
         </set>
@@ -26,6 +26,10 @@
         </subclass>
         <subclass name="tv.productions.TVSeries">
             <property name="title"/>
+            <set name="episodes" table="EPISODES" lazy="false">
+                <key column="SERIES_ID"/>
+                <one-to-many class="Episode"/>
+            </set>
         </subclass>
     </class>
     <class name="Episode" table="EPISODES">
