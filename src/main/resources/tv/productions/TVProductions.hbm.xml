@@ -44,7 +44,7 @@
         <id name="id" column="REPORTAGE_ID">
             <generator class="native"/>
         </id>
-        <property name="reportageId" not-null="false"/>
+        <property name="reportageId"/>
         <property name="content" type="text"/>
         <property name="subject"/>
         <property name="version"/>

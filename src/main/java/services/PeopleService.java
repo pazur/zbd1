@@ -1,5 +1,6 @@
 package services;
 
+import org.hibernate.criterion.Criterion;
 import tv.TVStation;
 import tv.daos.DAO;
 import tv.daos.DAOUtil;
@@ -24,21 +25,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class PeopleService extends Service{
-    private interface Command{
-        public Object run();
-    }
 
-    private Object execute(Command cmd){
-        try{
-            begin();
-            Object result = cmd.run();
-            commit();
-            return result;
-        } catch (RuntimeException e){
-            except(e);
-        }
-        return null;
-    }
 
     private class CreateActor implements Command{
         String name; String surname; TVStation station; short rating;
@@ -98,10 +85,7 @@ public class PeopleService extends Service{
         public List run(){return dao.getAll();}
     }
     public List getAll(Class cls) throws Exception {
-        DAO dao = DAOUtil.getPeopleDAO(cls);
-        if (dao == null)
-            throw new Exception("Wrong class");
-        return (List)execute(new GetAll(dao));
+        return (List)execute(new GetAll(getDao(cls)));
     }
 
     private class Get implements Command{
@@ -110,10 +94,7 @@ public class PeopleService extends Service{
         public Object run(){return dao.get(id);}
     }
     public Object get(Long id, Class cls) throws Exception {
-        DAO dao = DAOUtil.getPeopleDAO(cls);
-        if (dao == null)
-            throw new Exception("Wrong class");
-        return execute(new Get(id, dao));
+        return execute(new Get(id, getDao(cls)));
     }
 
     private class Save implements Command{
@@ -123,5 +104,29 @@ public class PeopleService extends Service{
     }
     public Long save(Person p){
         return (Long)execute(new Save(p));
+    }
+
+    private class Update implements Command{
+        private Object o;
+        public Update(Object o){this.o = o;}
+        public Object run(){new PersonDAO().update(o); return null;}
+    }
+    public Long update(Person p){
+        return (Long)execute(new Update(p));
+    }
+
+    private class GetByCriterions implements Command{
+        private List<Criterion> criterions; private DAO dao;
+        public GetByCriterions(List<Criterion>criterions, DAO dao){this.dao = dao; this.criterions = criterions;}
+        public Object run(){return new PersonDAO().getByCriterions(criterions);}
+    }
+    public List getByCriterions(Class cls, List<Criterion> criterions) throws Exception {
+        return (List)execute(new GetByCriterions(criterions, getDao(cls)));
+    }
+    private DAO getDao(Class cls) throws Exception {
+        DAO dao = DAOUtil.getPeopleDAO(cls);
+        if (dao == null)
+            throw new Exception("Wrong class");
+        return dao;
     }
 }

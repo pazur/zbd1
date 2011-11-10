@@ -1,7 +1,10 @@
 package tv.daos;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.DetachedCriteria;
 import org.omg.PortableInterceptor.NON_EXISTENT;
 import tv.people.Person;
 import util.HibernateUtil;
@@ -24,8 +27,19 @@ public class DAO {
         return (Long) currentSession().save(o);
     }
 
+    public void update(Object o){
+        currentSession().update(o);
+    }
+
     protected Query getQuery(){
         return null;
+    }
+    public List getByCriterions(List<Criterion> criterions){
+        DetachedCriteria criteria = DetachedCriteria.forClass(getCls());
+        for (Criterion c: criterions){
+            criteria.add(c);
+        }
+        return criteria.getExecutableCriteria(currentSession()).list();
     }
 
     protected Query getQuery(String cls){
@@ -42,7 +56,7 @@ public class DAO {
         delete(get(id));
     }
     public Object get(Long id){
-        return currentSession().load(getCls(), id);
+        return currentSession().get(getCls(), id);
     }
     protected Class getCls(){
         return null;

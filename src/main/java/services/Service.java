@@ -1,5 +1,6 @@
 package services;
 
+import org.hibernate.Session;
 import util.HibernateUtil;
 
 /**
@@ -19,5 +20,24 @@ public abstract class Service {
     protected void except(RuntimeException e){
         HibernateUtil.getSessionFactory().getCurrentSession().getTransaction().rollback();
         throw e;
+    }
+    protected Session currentSession(){
+        return HibernateUtil.getSessionFactory().getCurrentSession();
+    }
+
+    protected interface Command{
+        public Object run();
+    }
+
+    protected Object execute(Command cmd){
+        try{
+            begin();
+            Object result = cmd.run();
+            commit();
+            return result;
+        } catch (RuntimeException e){
+            except(e);
+        }
+        return null;
     }
 }

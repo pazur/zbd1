@@ -33,20 +33,22 @@ public class ReportageDAO extends DAO{
         reportage.setVersion((short)version);
         reportage.setReportageId(reportageId);
         Long result = save(reportage);
-        if (reportageId == null)
-            reportage.setReportageId(reportage.getId());
         currentSession().setReadOnly(reportage, true);
         return result;
     }
 
+    public void updateReportageId(Reportage r){
+        if (r.getReportageId() == 0){
+            r.setReportageId(r.getId());
+            update(r);
+        }
+    }
+
     public Long create(String subject, String content, Reporter author, News news){
-        return create(subject, content, author, news, (short)1, null);
+        return create(subject, content, author, news, (short)1, 0L);
     }
 
     public Long updateReportage(Reportage reportage){
-        if (!currentSession().contains(reportage)){
-            return save(reportage);
-        }
         Long result = create(reportage.getSubject(), reportage.getContent(), reportage.getAuthor(), reportage.getNews(), reportage.getVersion() + 1, reportage.getReportageId());
         return result;
     }

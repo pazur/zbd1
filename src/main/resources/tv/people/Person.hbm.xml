@@ -32,7 +32,7 @@
             </join>
         </subclass>
         <subclass name="tv.people.Actor">
-            <set name="episodes" table="EPISODE_ACTOR">
+            <set name="episodes" table="EPISODE_ACTOR" lazy="false">
                 <key column="PERSON_ID"/>
                 <many-to-many column="EPISODE_ID" class="tv.productions.Episode"/>
             </set>
